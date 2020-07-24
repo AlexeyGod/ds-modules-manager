@@ -16,69 +16,26 @@ use framework\exceptions\ErrorException;
 class ManagerModule extends ModuleComponent
 {
     public $normalize = true;
+    protected $_generalMenu = [];
+    protected $_menu = [];
 
-    //public $modules = ['user', 'content', ]; //'task'];
     public static $access = 'manager';
 
     public $routes = [
-        //'manager/<action:[A-Za-z0-9+_-]+>' => 'manager/<action>',
-        //'manager/<controller:[A-Za-z0-9+_-]+>/<action:[A-Za-z0-9+_-]+>' => 'manager/<controller>/<action>',
-        //'manager/<controller:[A-Za-z0-9+_-]+>/<action:[A-Za-z0-9+_-]+>/<id:[0-9]+>' => 'manager/<controller>/<action>',
 
         'manager/<controller:(modules|settings)>/<action:[A-Za-z0-9+_-]+>' => 'manager/<controller>/<action>',
         'manager/modules/<action:[A-Za-z0-9+_-]+>/<id:[0-9]+>' => 'manager/modules/<action>',
         'manager/modules/<action:smart-[A-Za-z0-9+_-]+>/<module:[A-Za-z0-9_-]+>' => 'manager/modules/<action>',
-
         'manager/<module:[A-Za-z0-9+_-]+>/<controller:[A-Za-z0-9+_-]+>' => '<module>/<controller>',
         'manager/<module:[A-Za-z0-9+_-]+>/<controller:[A-Za-z0-9+_-]+>' => '<module>/<controller>',
         'manager/<module:[A-Za-z0-9+_-]+>/<controller:[A-Za-z0-9+_-]+>/<action:[A-Za-z0-9+_-]+>' => '<module>/<controller>/<action>',
         'manager/<module:[A-Za-z0-9+_-]+>/<controller:[A-Za-z0-9+_-]+>/<action:[A-Za-z0-9+_-]+>/<id:\d+>' => '<module>/<controller>/<action>',
     ];
 
-    protected $_menu = [
-        /*
-        'accept' => 'system',
-        'name' => 'Системные',
-        'icon' => 'icon-cogs',
-        'links' => [
-            [
-                'name' => 'Сводная',
-                'url' => '/manager',
-            ],
-            [
-                'name' => 'Конфигурация и лог',
-                'url' => '/manager/see-log',
-            ],
-            [
-                'name' => 'Список иконок',
-                'url' => '/manager/see-icon',
-            ],
-            [
-                'name' => 'Очистить кэш',
-                'url' => '/manager/clear-assets',
-            ],
-            [
-                'name' => 'Модули',
-                'url' => '/manager/modules',
-            ],
-            [
-                'name' => 'Настройки',
-                'url' => '/manager/settings',
-            ],
-
-        ]
-        */
-    ];
-
-    protected $_generalMenu = [];
-
     public function __construct(array $options = [])
     {
+        Application::setAlias('@modules/manager', __DIR__);
         parent::__construct($options);
-        // Формирование меню
-        //$this->_generalMenu['manager'] = $this->contextMenu();
-        // Подгрузка всех модулей
-
     }
 
     public static function getModules()
@@ -164,6 +121,4 @@ JS;
 
         return $output;
     }
-
-
 }
