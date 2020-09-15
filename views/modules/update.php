@@ -12,7 +12,7 @@ $this->title = 'Меню | '.($model->isNewRecord ? 'Создать' : 'Изме
 $this->breadcrumbs[] = ['url' => '/manager/modules', 'name' => 'Модули'];
 $this->breadcrumbs[] = ['name' => ($model->isNewRecord ? 'Создать' : 'Изменить')];
 
-echo '<div class="p10">';
+echo '<div class="container-fluid">';
 ?>
 
 <?

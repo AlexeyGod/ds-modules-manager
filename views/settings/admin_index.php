@@ -7,9 +7,10 @@
 use framework\helpers\ActiveForm;
 
 $this->breadcrumbs[] = ['name' => 'Настройки'];
-$this->title = 'Настройки';
+$this->title = 'Настройки (Вид администратора)';
 ?>
-<h1>Настройки</h1>
+<h1>Настройки <span>Вид администратора</span></h1>
+
 <div class="p10">
     <?  $form = ActiveForm::begin(); ?>
     <table class="table">

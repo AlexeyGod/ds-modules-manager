@@ -20,64 +20,60 @@ header("Content-type: text/html; charset=utf-8");
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?=$this->title?></title>
+    <title><?= $this->title ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <?=$this->head()?>
+    <?= $this->head() ?>
 </head>
 <body>
-<div class="full-page">
+<div class="wrapper">
     <header>
-        <div class="header-container">
-            <div class="logotype">
+        <nav class="top-mnu">
+            <div class="logo">
                 <a href="/manager">
-                    <img src="<?=$resourceManagerBundlePath?>/img/cms-logo.png" alt="CMS Logotype">
+                    <img src="<?= $resourceManagerBundlePath ?>/img/cms-logo.png" alt="CMS Logotype">
                 </a>
             </div>
-            <div class="top-menu">
-                <ul>
-                    <li><a href="/">Посмотреть сайт</a></li>
-                    <?php
-                    // Разработчик
-                    if(Application::app()->identy->can('system')) {
-                        echo '<li><a href="/manager/see-log">Состояние</a></li>'.
-                            '<li><a href="/manager/modules">Модули</a></li>';
-                    }
-                    // Администратор
-                    if(Application::app()->identy->can('admin')) {
-                        echo ' <li><a href="/manager/see-icon">Иконки</a></li>
-                    <li><a href="/manager/settings">Настройки</a></li>
-                    <li><a href="/manager/clear-assets">Очистить кэш</a></li>';
-                    }
-                    ?>
 
-                </ul>
+            <ul>
+                <li><a href="/"><span class="glyphicon glyphicon-eye-open"></span> Посмотреть сайт</a></li>
+                <?php
+                // Разработчик
+                if (Application::app()->identy->can('system')) {
+                    echo '<li><a href="/manager/see-log"><span class="icon icon-info"></span> Состояние</a></li>' .
+                        '<li><a href="/manager/modules"><span class="icon icon-tree"></span> Модули</a></li>';
+                }
+                // Администратор
+                if (Application::app()->identy->can('admin')) {
+                    echo ' <li><a href="/manager/see-icon"><span class="icon icon-images"></span> Иконки</a></li>
+                <li><a href="/manager/settings"><span class="icon icon-cogs"></span> Настройки</a></li>
+                <li><a href="/manager/clear-assets"><span class="glyphicon glyphicon-trash"></span> Очистить кэш</a></li>';
+                }
+                ?>
+
+            </ul>
+            <div class="usr">
+                <a href="#" id="profile"><img src="<?= $resourceManagerBundlePath ?>/img/no-photo.png"
+                                              alt="Avatar"> <?= Application::app()->identy->getShortName() ?></a>
             </div>
-            <div class="userbar">
-                <a href="#" id="profile"><img src="<?=$resourceManagerBundlePath?>/img/no-photo.png" alt="Avatar"> <?=Application::app()->identy->getShortName()?></a>
-            </div>
-        </div>
+        </nav>
     </header>
-    <div class="notify">
-        <?=FlashWidget::asBlocks()?>
-    </div>
-    <div class="container">
-        <div class="module-container">
-            <div class="window">
-                <?=$managerModule->menu()?>
+    <section>
+        <div class="workspace">
+            <div class="v-mnu">
+                <?=$managerModule->bootstrapMenu() ?>
+            </div>
+            <div class="v-container">
+                <?= FlashWidget::asBlocks() ?>
+                <?= BreadCrumbsWidget::widget($this->breadcrumbs, ['name' => 'Управление', 'url' => '/manager']) ?>
+                <div class="container-fluid">
+                <?= $content ?>
+                </div>
             </div>
         </div>
-        <div class="main-container">
-            <div class="window">
-                <div class="breadcrumbs"><?=BreadCrumbsWidget::widget($this->breadcrumbs, ['name' => 'Управление', 'url' => '/manager'])?></div>
-                <?=$content?>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
 
-<footer>
-    &#169; Система управления сайтом разработана Web-студией Digital-Solution.Ru
-</footer>
-<?=$this->footer()?>
+</div><!-- end of wrapper -->
+
+<?= $this->footer() ?>
 </body>
 </html>

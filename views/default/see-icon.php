@@ -19,18 +19,28 @@ $source = file_get_contents($pathToCss);
 preg_match_all("#\\.(.+-.+):before#", $source, $matches);
 
 ?>
-<div class="window p10">
-    <p>В составе текущей версии фреймворка Вам доступны следующие иконки</p>
-    <p>CSS-Файл: <code><?=$pathToCss?></code></p>
-    <br>
-    <br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            В составе текущей версии фреймворка Вам доступны следующие иконки
+        </div>
+        <div class="col-xs-12">
+            <small>CSS-Файл: <code><?=$pathToCss?></code></small>
+            <br>
+            <br>
+        </div>
+    </div>
 
     <?
     foreach($matches[1] as $class)
-        echo '<div style="display: inline-block; width: 100px; height: 100px; text-align: center">'
-            .'<span class="icon '.$class.'" style="font-size: 20pt"></span><br><br>'
-            .'<b>'.$class.'</b>'
+        echo '<div class="col-md-2 text-center">'
+            ."\t".'<div style="padding: 10px">'
+            ."\t\t".'<span class="icon '.$class.'" style="font-size: 20pt"></span><br>'
+            ."\t\t".'<b>'.$class.'</b>'
+            ."\t".'</div>'
             .'</div>'."\n";
     ?>
+
 </div>
+
 

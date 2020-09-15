@@ -83,7 +83,7 @@ class ModulesController extends Controller
     }
 
     // Автоматическая установка
-     public function actionInstall()
+     public function actionInstall($id)
     {
         /*
         * При установке модуля должны быть записаны следующие данные
@@ -94,18 +94,44 @@ class ModulesController extends Controller
             priority 
             status
             system
+            install
         */
 
-        $model = new Modules();
+        $model = Modules::findOne($id);
 
-        if($model->load(Application::app()->request->post()))
+        if($model == null) throw new ErrorException ("Модуль не найден");
+
+        if($model->status == 1)
         {
-            if(!class_exists($model->class))
+            Application::app()->request->setFlash('info', 'Нельзя установить включенный модуль');
+            return $this->redirect('/manager/modules');
+        }
+
+
+            // Стек
+            $output = 'stack start: ';
+
+            $mClass = $model->class;
+            // Выполняем установку
+            $installData = $mClass::install();
+
+            if($installData['status'] == ModuleInstall::INSTALL_SUCCESS) // Успешная установка
             {
-                Application::app()->request->setFlash('error', 'Указанный класс для модуля '.$model->name.' ('.$model->class.') не существует');
+                $output .= 'Установка успешна<br>';
+
+                $model->install = '0';
+                $model->status = 1; // Вкл.
+                $model->save();
             }
             else
             {
+                $output .= 'Установка не завершена (статус: '.$installData['status'].')<br>'
+                    .'<pre>'.var_export($installData, true).'</pre>';
+            }
+
+
+
+            /*
                 $mClass = $model->class;
 
                 $installData = $mClass::install();
@@ -131,13 +157,13 @@ class ModulesController extends Controller
                }
 
                 return $this->render('install-success', ['model' => $model, 'mClass' => $mClass, 'installData' => $installData]);
+                */
 
-            }
 
-
-        }
-
-        return $this->render('install', ['model' => $model]);
+        return $this->render('install', [
+            'model' => $model,
+            'output' => $output
+        ]);
     }
 
     // Автоматическая установка

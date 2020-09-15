@@ -16,13 +16,16 @@ class ManagerBundle extends Bundle
     public  $sourcePath = '@modules/manager/assets/src';
 
     public  $js = [
-        'js/manage.js'
+        //'js/manage.js'
+        //'js/manage.js'
     ];
     public  $css = [
-        'css/manage.css'
+        'css/correct.css'
+        //'css/manage.css'
     ];
 
     public $depends = [
-        'framework\\assets\\jquery\\JqueryBundle'
+        'framework\\assets\\bootstrap\\BootstrapBundle'
+        //'framework\\assets\\jquery\\JqueryBundle'
     ];
 }

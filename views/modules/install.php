@@ -8,44 +8,19 @@
 use framework\helpers\ActiveForm;
 
 
-$this->title = 'Меню | '.($model->isNewRecord ? 'Добавить' : 'Изменить').' модуль';
-$this->breadcrumbs[] = ['url' => '/manager/modules', 'name' => 'Модули'];
-$this->breadcrumbs[] = ['name' => ($model->isNewRecord ? 'Добавить' : 'Изменить')];
+$this->title = 'Меню | Установить модуль';
+$this->breadcrumbs[] = ['url' => '/manager/modules', 'name' => 'Управление модулями'];
+$this->breadcrumbs[] = ['name' => 'Установить модуль '.$model->name];
 
-echo '<div class="p10">';
 ?>
-
-<?
-    $form = ActiveForm::begin();
-        /*
-        foreach ($model->fields as $field)
-        {
-            if(in_array($field, ['id'])) continue;
-
-            switch($field):
-
-                case 'class':
-                    echo '<div class="field">'
-                        .'  '.$form->input($model, $field, ['value' => str_replace('\\', '\\\\', $model->{$field})])
-                        .'</div>';
-                    break;
-
-                default:
-                    echo '<div class="field">'
-                        .'  '.$form->input($model, $field)
-                        .'</div>';
-                    break;
-
-            endswitch;
-        }
-        */
-         echo '<div class="field">'
-              .'  '.$form->input($model, 'class', ['value' => (empty($model->class) ? 'modules\\\ \\\ Module' : str_replace('\\', '\\\\', $model->class))])
-              .'</div>';
-
-    echo '<div class="field">'.ActiveForm::submit(['value' => 'Далее →']).'</div>';
-    ActiveForm::end();
-echo '</div>';
-?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <?
+            echo 'Output: '.$output;
+            ?>
+        </div>
+    </div>
+</div>
 
 

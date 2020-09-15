@@ -7,7 +7,7 @@
 
 namespace modules\manager\controllers;
 use application\models\User;
-use framework\models\Settings;
+use framework\components\Settings;
 use framework\components\Controller;
 use framework\core\Application;
 use framework\exceptions\NotFoundHttpException;
@@ -32,13 +32,15 @@ class SettingsController extends Controller
         if(!empty($confings))
         {
             // Сохранение
-            Settings::updateSettings($confings);
+            Application::app()->getConfigStorage()->updateSettings($confings);
             Application::app()->request->setFlash('success', 'Настройки изменены');
             //exit(var_export($confings, true));
         }
 
+        $settings = Application::app()->getConfigStorage()->reload()->getRows();
+
        return $this->render($this->view_prefix.'_index', [
-           'model' => Settings::find()->orderBy(['name' => 'asc'])->all(),
+           'model' => $settings,
            'view_mode' => $this->view_prefix
        ]);
     }
@@ -51,7 +53,7 @@ class SettingsController extends Controller
 
     public function actionCreate()
     {
-        $model = new Settings();
+        $model =  Application::app()->getConfigStorage();
 
         if($model->load(Application::app()->request->post()))
         {
